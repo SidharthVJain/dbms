@@ -1,3 +1,20 @@
+CREATE TABLE Bus (
+    BusNo VARCHAR(10) PRIMARY KEY,
+    BusName VARCHAR(30),
+    Source VARCHAR(30),
+    Destination VARCHAR(30),
+    Capacity INT,
+    BookedSeats INT DEFAULT 0
+);
+
+CREATE TABLE Booking (
+    BookingId INT PRIMARY KEY,
+    BusNo VARCHAR(10),
+    Seats INT,
+    TravelDate DATE,
+    FOREIGN KEY (BusNo) REFERENCES Bus(BusNo)
+);
+
 DELIMITER //
 
 CREATE TRIGGER update_booked_seats
@@ -10,4 +27,4 @@ BEGIN
 END;
 //
 
-DELIMITER ;
+DELIMITER ;ELIMITER
