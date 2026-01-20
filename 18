@@ -1,39 +1,38 @@
-CREATE TABLE Account (
-    AccNo INT PRIMARY KEY,
-    AccName VARCHAR(50),
-    Balance DECIMAL(10,2)
-);
+DELIMITER $$
 
-CREATE TABLE TransactionDetails (
-    TxnId INT PRIMARY KEY,
-    AccNo INT,
-    TxnType VARCHAR(20),
-    Amount DECIMAL(10,2),
-    TxnDate DATE,
-    FOREIGN KEY (AccNo) REFERENCES Account(AccNo)
-);
+CREATE TABLE accounts (
+    acc_id INT PRIMARY KEY,
+    balance DECIMAL(10,2)
+)$$
 
-DELIMITER //
+CREATE TABLE transactions (
+    txn_id INT PRIMARY KEY,
+    acc_id INT,
+    amount DECIMAL(10,2),
+    txn_type VARCHAR(20),
+    FOREIGN KEY (acc_id) REFERENCES accounts(acc_id)
+)$$
 
-CREATE TRIGGER update_account_balance
-AFTER INSERT ON TransactionDetails
+CREATE TRIGGER update_acc_balance
+AFTER INSERT ON transactions
 FOR EACH ROW
 BEGIN
-    IF NEW.TxnType = 'Deposit' THEN
-        UPDATE Account
-        SET Balance = Balance + NEW.Amount
-        WHERE AccNo = NEW.AccNo;
-
-    ELSEIF NEW.TxnType = 'Withdrawal' THEN
-        UPDATE Account
-        SET Balance = Balance - NEW.Amount
-        WHERE AccNo = NEW.AccNo;
+    IF NEW.txn_type = 'DEPOSIT' THEN
+        UPDATE accounts
+        SET balance = balance + NEW.amount
+        WHERE acc_id = NEW.acc_id;
+    ELSEIF NEW.txn_type = 'WITHDRAWAL' THEN
+        UPDATE accounts
+        SET balance = balance - NEW.amount
+        WHERE acc_id = NEW.acc_id;
     END IF;
-END;
-//
+END$$
+
+INSERT INTO accounts VALUES (2, 3400)$$
+
+INSERT INTO transactions VALUES (1, 2, 150, 'DEPOSIT')$$
+INSERT INTO transactions VALUES (2, 2, 300, 'WITHDRAWAL')$$
 
 DELIMITER ;
 
-INSERT INTO TransactionDetails VALUES (1, 101, 'Deposit', 2000, '2026-01-20');
-
-SELECT * FROM Account;
+SELECT * FROM accounts;
