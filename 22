@@ -1,3 +1,9 @@
+CREATE TABLE Employee (
+    EmpId INT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    Salary INT
+);
+
 DELIMITER //
 
 CREATE PROCEDURE employees_above_30000()
@@ -6,7 +12,7 @@ BEGIN
     DECLARE ename VARCHAR(50);
 
     DECLARE cur CURSOR FOR
-        SELECT EmpName FROM EMPLOYEE WHERE Salary > 30000;
+        SELECT EmpName FROM Employee WHERE Salary > 30000;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
 
@@ -17,11 +23,11 @@ BEGIN
         IF done = 1 THEN
             LEAVE emp_loop;
         END IF;
-        SELECT ename AS Employee_Name;
+        SELECT ename;
     END LOOP;
 
     CLOSE cur;
 END;
 //
 
-DELIMITER ;
+DELIMITER ;R
