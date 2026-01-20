@@ -31,3 +31,17 @@ END;
 //
 
 DELIMITER ;
+
+INSERT INTO Library VALUES (1, 'DBMS Concepts', 10);
+
+SELECT * FROM Library;
+
+INSERT INTO BookTransaction VALUES (101, 1, 'Borrowal', 3);
+
+SELECT * FROM Library;
+
+INSERT INTO BookTransaction VALUES (102, 1, 'Withdrawal', 2);
+
+SELECT * FROM Library;
+
+SELECT * FROM BookTransaction;
