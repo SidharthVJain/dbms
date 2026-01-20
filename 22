@@ -1,0 +1,27 @@
+DELIMITER //
+
+CREATE PROCEDURE employees_above_30000()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE ename VARCHAR(50);
+
+    DECLARE cur CURSOR FOR
+        SELECT EmpName FROM EMPLOYEE WHERE Salary > 30000;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+
+    emp_loop: LOOP
+        FETCH cur INTO ename;
+        IF done = 1 THEN
+            LEAVE emp_loop;
+        END IF;
+        SELECT ename AS Employee_Name;
+    END LOOP;
+
+    CLOSE cur;
+END;
+//
+
+DELIMITER ;
