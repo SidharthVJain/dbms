@@ -31,3 +31,11 @@ END;
 //
 
 DELIMITER ;
+
+INSERT INTO Student VALUES
+(1, 'Akhil', 82),
+(2, 'Meera', 74),
+(3, 'Rahul', 91),
+(4, 'Sneha', 65);
+
+CALL students_above_75();
